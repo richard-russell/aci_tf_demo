@@ -12,25 +12,50 @@ terraform {
   }
 }
 
+variable apic_user {
+  type = string
+  default = "admin"
+}
+
+variable apic_password {
+  type = string
+  default = "admin"
+}
+
+variable apic_url {
+  type = string
+  default = "admin"
+}
+
+variable epg_count {
+  type = number
+  default = 10
+}
+
+variable name_prefix {
+  type = string
+  description = "prefix for object names"
+}
+
 provider "aci" {
   # cisco-aci user name
-  username = "admin"
+  username = var.apic_user
   # cisco-aci password
-  password = "!v3G@!4@Y"
+  password = var.apic_password
   # cisco-aci url
-  url      = "https://sandboxapicdc.cisco.com"
+  url      = var.apic_url
   insecure = true
 }
 
 resource "aci_tenant" "this" {
-  name        = "CX_UKI_automation"
+  name        = var.name_prefix
   description = "terraform demo"
   annotation  = "tag"
 }
 
 resource "aci_application_profile" "this" {
   tenant_dn   = aci_tenant.this.id
-  name        = "CX_UKI_automation_AP1"
+  name        = "${var.name_prefix}_AP1"
   annotation  = "tag"
   description = "terraform demo"
   name_alias  = "test_ap"
@@ -40,18 +65,18 @@ resource "aci_application_profile" "this" {
 resource "aci_bridge_domain" "this" {
   tenant_dn   = aci_tenant.this.id
   description = "from terraform"
-  name        = "CX_UKI_automation_BD1"
+  name        = "${var.name_prefix}_BD1"
 }
 
 resource "random_pet" "epgs" {
-  count  = 10
+  count  = var.epg_count
   length = 2
 }
 
 resource "aci_application_epg" "demo_epgs" {
-  for_each               = toset(random_pet.epgs[*].id)
+  count                  = var.epg_count
   application_profile_dn = aci_application_profile.this.id
-  name                   = "epg-${each.value}"
+  name                   = "epg-${random_pet.epgs[count.index].id}"
   description            = "terraform demo"
   annotation             = "tag_epg"
   exception_tag          = "0"
