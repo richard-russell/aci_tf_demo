@@ -48,7 +48,7 @@ provider "aci" {
 }
 
 resource "aci_tenant" "this" {
-  name        = var.name_prefix
+  name        = "${var.name_prefix}_tenant"
   description = "terraform demo"
   annotation  = "tag"
 }
