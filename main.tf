@@ -76,7 +76,7 @@ resource "random_pet" "epgs" {
 resource "aci_application_epg" "demo_epgs" {
   count                  = var.epg_count
   application_profile_dn = aci_application_profile.this.id
-  name                   = "epg-${random_pet.epgs[count.index].id}"
+  name                   = "ap-epg-${random_pet.epgs[count.index].id}"
   description            = "terraform demo"
   annotation             = "tag_epg"
   exception_tag          = "0"
