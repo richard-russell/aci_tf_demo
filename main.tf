@@ -19,7 +19,7 @@ resource "aci_bridge_domain" "this" {
   name        = "${var.name_prefix}_BD1"
 }
 
-resource "random_pet" "epgs" {
+resource "random_pet" "epg_names" {
   count  = var.epg_count
   length = 2
 }
@@ -27,7 +27,7 @@ resource "random_pet" "epgs" {
 resource "aci_application_epg" "demo_epgs" {
   count                  = var.epg_count
   application_profile_dn = aci_application_profile.this.id
-  name                   = "ap-epg-${random_pet.epgs[count.index].id}"
+  name                   = "ap-epg-${random_pet.epg_names[count.index].id}"
   description            = "terraform demo"
   annotation             = "tag_epg"
   exception_tag          = "0"
