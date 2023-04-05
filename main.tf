@@ -39,7 +39,7 @@ resource "aci_application_epg" "demo_epgs" {
   name_alias             = "alias_epg"
   pc_enf_pref            = "unenforced"
   pref_gr_memb           = "exclude"
-  prio                   = "unspecified"
+  prio                   = "level1"
   shutdown               = "no"
   relation_fv_rs_bd      = aci_bridge_domain.this.id
 }
