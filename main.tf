@@ -28,7 +28,7 @@ resource "aci_application_epg" "demo_epgs" {
   count                  = var.epg_count
   application_profile_dn = aci_application_profile.this.id
   name                   = "ap-epg-${random_pet.epg_names[count.index].id}"
-  description            = "terraform demo"
+  description            = "terraform demo EPGs"
   annotation             = "tag_epg"
   exception_tag          = "0"
   flood_on_encap         = "disabled"
