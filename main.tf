@@ -27,7 +27,7 @@ resource "random_pet" "epg_names" {
 resource "aci_application_epg" "demo_epgs" {
   count                  = var.epg_count
   application_profile_dn = aci_application_profile.this.id
-  name                   = "ap-epg-${random_pet.epg_names[count.index].id}"
+  name                   = "ap-epg-${count.index}-${random_pet.epg_names[count.index].id}"
   description            = "terraform demo EPGs"
   annotation             = "tag_epg"
   exception_tag          = "0"
@@ -43,3 +43,4 @@ resource "aci_application_epg" "demo_epgs" {
   shutdown               = "no"
   relation_fv_rs_bd      = aci_bridge_domain.this.id
 }
+
