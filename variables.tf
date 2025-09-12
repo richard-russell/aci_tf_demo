@@ -15,7 +15,7 @@ variable "apic_url" {
 
 variable "epg_count" {
   type    = number
-  default = 15
+  default = 20
 }
 
 variable "name_prefix" {
